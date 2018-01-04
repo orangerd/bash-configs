@@ -1,0 +1,9 @@
+################################################################################
+# $HOME/.bash_bind
+################################################################################
+# Special bindings for bash
+bind '"\C-l": clear-screen'
+bind '"\C-n": next-history'
+bind '"\C-p": previous-history'
+bind '"\C-k": kill-line'
+bind '"\C-u": unix-line-discard'

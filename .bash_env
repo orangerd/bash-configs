@@ -1,0 +1,67 @@
+################################################################################
+# $HOME/.bash_env
+################################################################################
+# Environment variables to set for bash
+# Setup the path
+export PATH=${PATH}:/usr/games:~/bin:/sbin:/usr/sbin
+
+# Setup CVSROOT
+export CVSROOT="/var/cvs"
+
+# Setup LANG to be UTF8
+export LANG=en_US.utf8
+
+# vim is my favorite editor
+export EDITOR=`which vim`
+
+# Check window size for xterms
+shopt -s checkwinsize
+
+# Setup bash history path
+export HISTFILE="${HOME}/.bash_history"
+export HISTSIZE="1000"
+
+# Don't put duplicate lines in the history
+export HISTCONTROL=ignoredups
+
+# Something's wrong with XDG
+export XDG_CONFIG_DIRS=/etc/xdg/:${XDG_CONFIG_DIRS}
+
+# Set the JAVA tmp directory to a tmp directory under /home (/tmp is too small)
+export _JAVA_OPTIONS=-Djava.io.tmpdir=${HOME}/.tmp
+# And also ANDROID_TMP (since android-studio seems to use this for determining tmp)
+export ANDROID_TMP=${HOME}/.tmp
+
+# Set vi mode on
+set -o vi
+
+# Use less as our pager
+export PAGER=`which less`
+
+# Setup CUDA paths.
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64"
+export CUDA_HOME=/usr/local/cuda
+
+# We want unlimited size for core dumps
+ulimit -c unlimited
+
+# Make less more friendly for non-text input files, see lesspipe(1)
+[[ -x /usr/bin/lesspipe ]] && eval "$(lesspipe)"
+
+# Change the window title of X terminals and setup a nice looking PS1
+case $TERM in
+	linux)
+		PS1='\[\033[01;29m\]\!: \[\033[01;32m\]\u\[\033[01;37m\]@\[\033[01;31m\]\h \[\033[01;34m\]\W \$ \[\033[00m\]'
+		;;
+	xterm*|rxvt|Eterm|eterm|kterm)
+		PS1='\[\033[01;29m\]\!: \[\033[01;32m\]\u\[\033[01;37m\]@\[\033[01;31m\]\h \[\033[01;34m\]\W \$ \[\033[00m\]'
+		PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\007"'
+		;;
+	screen)
+		PS1='\[\033[01;29m\]\!: \[\033[01;32m\]\u\[\033[01;37m\]@\[\033[01;31m\]\h \[\033[01;34m\]\W \$ \[\033[00m\]'
+		PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\033\\"'
+		;;
+	vt100)
+		PS1='\!: \u@\h \W \$ '
+		;;
+esac
